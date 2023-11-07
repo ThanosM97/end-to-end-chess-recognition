@@ -1,4 +1,5 @@
 """This module implements the Browser class."""
+import argparse
 import json
 from pathlib import Path
 from tkinter import END, messagebox, ttk
@@ -7,6 +8,8 @@ from typing import Union
 import pandas as pd
 from PIL import Image, ImageTk
 from ttkthemes import ThemedTk
+
+from utils import download_chessred, extract_zipfile
 
 # Window width for the Browser App
 WINDOW_WIDTH = 1280
@@ -250,3 +253,44 @@ class Browser:
                         piece_size), mask=piece_png)
 
         return board
+
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--dataroot', required=True,
+                        help="Path to ChessReD data.")
+
+    parser.add_argument('--browser', action="store_true",
+                        help='Run ChessReD browser app.')
+
+    parser.add_argument('--download', action="store_true",
+                        help='Download the Chess Recognition Dataset.')
+
+    args = parser.parse_args()
+
+    dataroot = Path(args.dataroot)
+    dataroot.mkdir(parents=True, exist_ok=True)
+
+    if args.download:
+        download_chessred(dataroot)
+
+        zip_path = dataroot/"images.zip"
+        print()
+
+        extract_zipfile(zip_file=zip_path, output_directory=dataroot)
+
+        # Remove zip file
+        zip_path.unlink(True)
+
+    if args.browser:
+        if (Path(dataroot/'annotations.json').exists()
+                and Path(dataroot/'images').exists()):
+            Browser(dataroot=args.dataroot)
+        else:
+            raise FileNotFoundError(
+                "Could not find the ChessReD data at the path " +
+                f"{dataroot}. Either use the '--download' flag, or" +
+                " manually download the dataset from https://data.4tu.nl" +
+                "/datasets/99b5c721-280b-450b-b058-b2900b69a90f/2 .")
