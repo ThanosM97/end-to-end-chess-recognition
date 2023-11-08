@@ -293,4 +293,4 @@ if __name__ == "__main__":
                 "Could not find the ChessReD data at the path " +
                 f"{dataroot}. Either use the '--download' flag, or" +
                 " manually download the dataset from https://data.4tu.nl" +
-                "/datasets/99b5c721-280b-450b-b058-b2900b69a90f/2 .")
+                "/datasets/99b5c721-280b-450b-b058-b2900b69a90f .")
