@@ -2,6 +2,7 @@
 import zipfile
 from pathlib import Path
 
+import torch
 import wget
 import yaml
 from tqdm import tqdm
@@ -77,3 +78,19 @@ def extract_zipfile(zip_file: str, output_directory: str) -> None:
             zip_ref.extract(file_name, output_directory)
 
     print("Extraction completed.")
+
+
+def recognition_accuracy(
+        y: torch.Tensor,
+        preds: torch.Tensor,
+        tolerance: int = 0) -> torch.Tensor:
+    """Returns the chess recognition accuracy with given `tolerance`.
+
+    Args:
+        y (Tensor): Ground truth labels.
+        preds (Tensor): Model predictions.
+        tolerance (int): Allowed mistakes per board. (Default: 0)
+    """
+    correct = ((preds == y).sum(axis=1) > 63-tolerance).sum()
+
+    return correct / preds.shape[0]
