@@ -9,6 +9,10 @@ Abstract:
 >datasets with limited angles, this dataset comprises a diverse collection of real images of chess formations captured from various angles using smartphone cameras; a sensor choice made to ensure real-world applicability. We use this dataset to both train our model and
 >evaluate and compare its performance to that of the current state-of-the-art. Our approach in chess recognition on this new benchmark dataset outperforms related approaches, achieving a board recognition accuracy of 15.26% (≈7x better than the current state-of-the-art).
 
+
+## Requirements
+For our experiments we used `Python 3.8.16`. Before using any of the scripts of this repository, please create a virtual environment and install the libraries found in [requirements.txt](requirements.txt). 
+
 ## Chess Recognition Dataset (ChessReD)
 
 
@@ -29,7 +33,7 @@ You can manually download the Chess Recognition Dataset (ChessReD) from [here](h
 python chessred.py --dataroot 'path/to/save/dataset' --download
 ```
 
-The `chessred.py` script also builts an app to browse ChessReD's images and their annotations, depicted in 2D diagrams. 
+The `chessred.py` script also builds an app to browse ChessReD's images and their annotations, depicted in 2D diagrams. 
 
 ```
 python chessred.py --dataroot 'path/to/dataset' --browser
@@ -37,3 +41,19 @@ python chessred.py --dataroot 'path/to/dataset' --browser
 
 
 ![ChessReD browser app](https://github.com/ThanosM97/end-to-end-chess-recognition/assets/41332813/0fd35982-52f5-40d1-a9a8-27aecf288938)
+
+
+
+
+## Citation
+
+If you use this code for your research, consider citing our paper.
+
+```
+@article{masouris2023end,
+  title={End-to-End Chess Recognition},
+  author={Masouris, Athanasios and van Gemert, Jan},
+  journal={arXiv preprint arXiv:2310.04086},
+  year={2023}
+}
+```
