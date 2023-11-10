@@ -75,12 +75,12 @@ class ChessDataModule(pl.LightningDataModule):
     def train_dataloader(self) -> DataLoader:
         return DataLoader(
             self.chess_train, batch_size=self.batch_size,
-            num_workers=self.workers)
+            num_workers=self.workers, shuffle=True)
 
     def val_dataloader(self) -> DataLoader:
         return DataLoader(
             self.chess_val, batch_size=self.batch_size,
-            num_workers=self.workers)
+            num_workers=self.workers, shuffle=True)
 
     def test_dataloader(self) -> DataLoader:
         return DataLoader(
@@ -101,11 +101,25 @@ class ChessResNeXt(pl.LightningModule):
     of 64x13 outputs, where 64 are the squares of the chessboard and 13 the
     number of possible classes to classify each square (6 piece types per
     color and empty square).
+
+    Args:
+        lr (float): Initial learning rate for training. (Default: 0.001)
+        decay (int): Period (epochs) of learning rate decay by a
+                     factor of 10. (Default: 100)
     """
 
-    def __init__(self) -> None:
-        """Initializes ChessResNeXt."""
+    def __init__(self, lr: float = 1e-3, decay: int = 100) -> None:
+        """Initializes ChessResNeXt.
+
+        Args:
+            lr (float): Initial learning rate for training. (Default: 0.001)
+            decay (int): Period (epochs) of learning rate decay by a
+                         factor of 10. (Default: 100)       
+        """
         super().__init__()
+
+        self.lr = lr
+        self.decay = decay
 
         backbone = models.resnext101_32x8d(weights="DEFAULT")
         num_filters = backbone.fc.in_features
@@ -186,15 +200,18 @@ class ChessResNeXt(pl.LightningModule):
         return (logits, y)
 
     def configure_optimizers(self) -> torch.optim.Adam:
-        optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
-        return optimizer
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, self.decay)
+
+        return [optimizer], [scheduler]
 
 
 def main(args):
     data_module = ChessDataModule(
         args.dataroot, args.nsamples, args.workers)
 
-    model = ChessResNeXt()
+    model = ChessResNeXt(lr=args.lr, decay=args.decay)
     checkpoint_callback = ModelCheckpoint(
         monitor="val_loss",
         save_last=True,
@@ -224,6 +241,13 @@ if __name__ == "__main__":
     parser.add_argument('--nsamples',
                         help="Number of samples per batch.",
                         default=8)
+
+    parser.add_argument('--lr', help="Initial learning rate.", default=1e-3)
+
+    parser.add_argument('--decay',
+                        help=("Period (epochs) of learning rate decay " +
+                              "by a factor of 10."),
+                        default=100)
 
     parser.add_argument('--topk',
                         help=("Number k of top performing" +
