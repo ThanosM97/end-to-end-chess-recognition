@@ -1,6 +1,8 @@
 # End-to-End Chess Recognition
 
-This repository hosts the official implementation of our paper [End-to-End Chess Recognition](https://arxiv.org/abs/2310.04086).
+This repository hosts the official implementation of our paper "End-to-End Chess Recognition".
+
+Paper: [https://arxiv.org/abs/2310.04086](https://arxiv.org/abs/2310.04086).
 
 Abstract:
 >Chess recognition refers to the task of identifying the chess pieces configuration from a chessboard image. Contrary to the predominant approach that aims to solve this task through the pipeline of chessboard detection, square localization, and piece classification,
@@ -26,13 +28,14 @@ The Chess Recognition Dataset (ChessReD) is a comprehensive collection of images
 
 <p align="center"> <b>Image samples from ChessReD</b> </p>
 
-
+### Download
 You can manually download the Chess Recognition Dataset (ChessReD) from [here](https://data.4tu.nl/datasets/99b5c721-280b-450b-b058-b2900b69a90f) and extract the images, or you can use the [chessred.py](chessred.py) script as follows:
 
 ```
 python chessred.py --dataroot 'path/to/save/dataset' --download
 ```
 
+### Browser
 The `chessred.py` script also builds an app to browse ChessReD's images and their annotations, depicted in 2D diagrams. 
 
 ```
@@ -43,7 +46,29 @@ python chessred.py --dataroot 'path/to/dataset' --browser
 ![ChessReD browser app](https://github.com/ThanosM97/end-to-end-chess-recognition/assets/41332813/0fd35982-52f5-40d1-a9a8-27aecf288938)
 
 
+## Training
 
+```
+$ python train.py -h
+
+usage: train.py [-h] --dataroot DATAROOT --epochs EPOCHS [--nsamples NSAMPLES] [--lr LR] [--decay DECAY] [--topk TOPK]
+                [--device {cpu,gpu}] [--ndevices NDEVICES] [--workers WORKERS] [--download]
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --dataroot DATAROOT  Path to ChessReD data.
+  --epochs EPOCHS      Number of epochs to train the model
+  --nsamples NSAMPLES  Number of samples per batch.
+  --lr LR              Initial learning rate.
+  --decay DECAY        Period (epochs) of learning rate decay by a factor of 10.
+  --topk TOPK          Number k of top performing model checkpoints to save
+  --device {cpu,gpu}
+  --ndevices NDEVICES  Number of devices to use for training
+  --workers WORKERS    Number of workers to use for data loading
+  --download           Download the Chess Recognition Dataset.
+```
+
+You can train the model using the [train.py](train.py) script following the implementation details described in our paper, or you can download our [pretrained model](https://drive.google.com/file/d/1sEkIj5MrFncGnmHQt66o_huKjqoMkNQ3/view?usp=drive_link).
 
 ## Citation
 
