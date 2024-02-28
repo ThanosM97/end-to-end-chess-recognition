@@ -1,6 +1,6 @@
 # End-to-End Chess Recognition
 
-This repository hosts the official implementation of our paper "End-to-End Chess Recognition".
+This repository hosts the official implementation of our VISAPP2024 paper "End-to-End Chess Recognition".
 
 Paper: [https://arxiv.org/abs/2310.04086](https://arxiv.org/abs/2310.04086).
 
