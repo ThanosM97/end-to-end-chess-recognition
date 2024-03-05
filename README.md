@@ -1,6 +1,6 @@
 # End-to-End Chess Recognition
 
-This repository hosts the official implementation of our VISAPP2024 paper "End-to-End Chess Recognition".
+This repository hosts the official implementation of our paper "End-to-End Chess Recognition", published at the proceedings of the 19th International Joint Conference on Computer Vision, Imaging and Computer Graphics Theory and Applications (VISIGRAPP 2024).
 
 Paper: [https://arxiv.org/abs/2310.04086](https://arxiv.org/abs/2310.04086).
 
@@ -75,10 +75,16 @@ You can train the model using the [train.py](train.py) script following the impl
 If you use this code for your research, consider citing our paper.
 
 ```
-@article{masouris2023end,
-  title={End-to-End Chess Recognition},
-  author={Masouris, Athanasios and van Gemert, Jan},
-  journal={arXiv preprint arXiv:2310.04086},
-  year={2023}
+@conference{visapp24,
+author={Athanasios Masouris. and Jan {van Gemert}.},
+title={End-to-End Chess Recognition},
+booktitle={Proceedings of the 19th International Joint Conference on Computer Vision, Imaging and Computer Graphics Theory and Applications - Volume 4: VISAPP},
+year={2024},
+pages={393-403},
+publisher={SciTePress},
+organization={INSTICC},
+doi={10.5220/0012370200003660},
+isbn={978-989-758-679-8},
+issn={2184-4321},
 }
 ```
